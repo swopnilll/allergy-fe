@@ -47,3 +47,78 @@ label {
     font-weight: 600;
     color: rgb(34, 34, 34);
 }
+
+.successfully-registed-message-wrapper {
+    width: 420px;
+    box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    border-radius: 8px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: center;
+}
+
+.successfully-registed-message-wrapper h2 {
+    display: flex;
+    align-self: center;
+}
+
+.successfully-registed-message-wrapper p {
+    display: flex;
+    align-self: center;
+}
+
+.successfully-registed-message-wrapper h4 {
+    display: flex;
+    align-self: center;
+}
+
+.allergy-page-wrapper {
+    padding: 20px;
+    height: 100%;
+}
+
+.user-details-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.allergy-cards-wrapper {
+    width: 100%;
+    margin: 32px 0;
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+    gap: 10px;
+    gap: 10px 20px; /* row-gap column gap */
+    flex-wrap: wrap;
+    row-gap: 30px;
+}
+
+.allergy-card {
+    width: 32%;
+    min-width: 400px;
+    height: 40vh;
+    box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
+    border-radius: 8px;
+    background-color: white;
+    padding: 20px;
+}
+
+.allery-image{
+    display: flex;
+    justify-content: center;
+    height: 20vh;
+    margin-bottom: 20px;
+}
+
+.add-allergy-button {
+    position:fixed;
+    top:40px;
+    left: 40px;
+}

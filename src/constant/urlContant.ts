@@ -1,3 +1,3 @@
-import config from "../../config";
+import config from "../config";
 
 export const BASE_URL = config.apiBaseUrl;

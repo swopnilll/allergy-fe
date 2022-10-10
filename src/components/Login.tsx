@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import useAuth from "../hooks/useAuth";
+import { login } from "../services/auth";
 
 const Login = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const [isFormValid, setFormValidityState] = useState(false);
 
@@ -12,8 +15,49 @@ const Login = () => {
         setFormValidityState(email.length > 0 && password.length > 0);
     }, [email, password])
 
-    const handleLoginFormSubmit = (event: any) => {
+    const { setAuthenticatedUser } = useAuth();
+
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/allergy"
+
+    const navigate = useNavigate();
+
+
+    const handleLoginFormSubmit = async (event: any) => {
         event.preventDefault();
+
+        let apiResponse: any = {};
+
+        try {
+            apiResponse = await login({
+                email,
+                password
+            })
+        } catch (error: any) {
+            if (!error?.response) {
+                setErrorMessage('No Server Response');
+            } else if (error.response?.status === 409) {
+                setErrorMessage('Missing email or password');
+            } else if (error.response?.status === 401) {
+                setErrorMessage("Unauthorised")
+            }
+            else {
+                setErrorMessage('Login Failed')
+            }
+        }
+
+        const userCredentials = apiResponse?.data?.data;
+
+        setAuthenticatedUser(
+            {
+                id: userCredentials?.id,
+                accessToken: userCredentials?.accessToken,
+                name: userCredentials?.name,
+                email: userCredentials?.email
+            }
+        );
+
+        navigate(from, { replace: true });
     }
 
     return (
