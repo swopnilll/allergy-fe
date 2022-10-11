@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import useAuth from "../hooks/useAuth";
-import { login } from "../services/auth";
+import { login } from "../api/auth";
 
 const Login = () => {
 
@@ -34,19 +34,12 @@ const Login = () => {
                 password
             })
         } catch (error: any) {
-            if (!error?.response) {
-                setErrorMessage('No Server Response');
-            } else if (error.response?.status === 409) {
-                setErrorMessage('Missing email or password');
-            } else if (error.response?.status === 401) {
-                setErrorMessage("Unauthorised")
-            }
-            else {
-                setErrorMessage('Login Failed')
-            }
+            console.log(error)
         }
 
-        const userCredentials = apiResponse?.data?.data;
+        console.log(apiResponse);
+
+        const userCredentials = apiResponse?.data;
 
         setAuthenticatedUser(
             {

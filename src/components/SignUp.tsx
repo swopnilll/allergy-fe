@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom"
-import { register } from "../services/auth";
+import { register } from "../api/auth";
 
 const SignUp = () => {
 
@@ -28,16 +28,7 @@ const SignUp = () => {
 
             setRegisterationStatus(true);
         } catch (error: any) {
-            if (!error?.response) {
-                setErrorMessage('No Server Response');
-            } else if (error.response?.status === 409) {
-                setErrorMessage('Missing email or password');
-            } else if (error.response?.status === 401) {
-                setErrorMessage("Unauthorised")
-            }
-            else {
-                setErrorMessage('Login Failed')
-            }
+            console.log(error);
         }
     }
 

@@ -5,7 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 import useAuth from "../hooks/useAuth";
 
-import { getAllAllergiesForUser } from "../services/allergyService";
+import { getAllAllergiesForUser } from "../api/allergyService";
 
 import myImage from "../images/allergy.jpeg"
 import { Button } from "react-bootstrap";
