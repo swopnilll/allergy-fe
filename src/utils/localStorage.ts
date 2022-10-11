@@ -5,12 +5,8 @@
  * @param {String|Array|Number|Object|Boolean} value
  * @returns {Boolean}
  */
-export const setValueInLocalStorage = async (key: string, value: any) => {
-  try {
-    await localStorage.setItem(key, value);
-  } catch (error) {
-    throw error;
-  }
+export const setValueInLocalStorage = (key: string, value: any) => {
+  localStorage.setItem(key, value);
 
   return true;
 };
@@ -22,15 +18,8 @@ export const setValueInLocalStorage = async (key: string, value: any) => {
  * @returns {Promise}
  */
 
-export const getValueFromLocalStorage = async (key: string) => {
-  let item;
-  try {
-    item = localStorage.getItem(key);
-  } catch (error) {
-    throw error;
-  }
-
-  return item;
+export const getValueFromLocalStorage = (key: string) => {
+  return localStorage.getItem(key);
 };
 
 /**
@@ -39,12 +28,19 @@ export const getValueFromLocalStorage = async (key: string) => {
  * @param {string} key
  * @returns {Boolean}
  */
-export const removeValueFromLocalStorage = async (key: string) => {
-  try {
-    localStorage.removeItem(key);
-  } catch (error) {
-    throw error;
-  }
+export const removeValueFromLocalStorage = (key: string) => {
+  localStorage.removeItem(key);
+
+  return true;
+};
+
+/**
+ * Method to clear local storage.
+ *
+ * @returns {Boolean}
+ */
+export const clearLocalStorate = () => {
+  localStorage.clear();
 
   return true;
 };

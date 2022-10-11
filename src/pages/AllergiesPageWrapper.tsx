@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
+import { Button } from "react-bootstrap";
 
 import useAuth from "../hooks/useAuth";
 
+import myImage from "../images/allergy.jpeg"
+
 import { getAllAllergiesForUser } from "../api/allergyService";
 
-import myImage from "../images/allergy.jpeg"
-import { Button } from "react-bootstrap";
 
 
 export const AllergiesPageWrapper = () => {
@@ -17,19 +16,19 @@ export const AllergiesPageWrapper = () => {
     console.log(authenticatedUser);
 
     const [allergies, setAllergies] = useState<any>({});
-    const [user, setUserDetail] = useState(authenticatedUser)
+    const [user] = useState(authenticatedUser)
 
     useEffect(() => {
         let isMounted = true;
         const getAllergies = async () => {
 
             try {
-                const apiResponse = await getAllAllergiesForUser(user.id, user.accessToken);
+                const apiResponse = await getAllAllergiesForUser(user.id);
                 console.log(apiResponse);
 
                 isMounted && setAllergies(apiResponse?.data?.data);
             } catch (error) {
-                console.log(error);
+                throw (error)
             }
 
         }
@@ -55,7 +54,7 @@ export const AllergiesPageWrapper = () => {
                 {
                     allergies?.length
                         ? (allergies.map((allergy: any, index: number) =>
-                            <div className="allergy-card">
+                            <div key={allergy.id} className="allergy-card">
                                 <div className="allery-image">
                                     <img src={myImage} alt="register-page-landing"></img>
                                 </div>

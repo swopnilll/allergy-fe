@@ -6,6 +6,7 @@ import { BASE_URL } from "../constant/urlContant";
 import { CONTENT_TYPE_JSON } from "../constant/misc";
 
 import { isEmpty as isObjectEmpty } from "../utils/object";
+import { getAccessToken } from "../localStorageService/auth";
 
 /**
  * Axios instance for login.
@@ -49,7 +50,7 @@ loginAxios.interceptors.response.use(
 /**
  * Axios instance for Regsitering user.
  */
- export const signUpAxios = axios.create({
+export const signUpAxios = axios.create({
   baseURL: BASE_URL,
   headers: {
     "Content-Type": CONTENT_TYPE_JSON,
@@ -58,3 +59,29 @@ loginAxios.interceptors.response.use(
 });
 
 // TODO: Define Response Interceptor.
+
+/**
+ * Axios instance for Regsitering user.
+ */
+export const protectedAxios = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    "Content-Type": CONTENT_TYPE_JSON,
+    Accept: CONTENT_TYPE_JSON,
+  },
+});
+
+/**
+ * Metod to get the request interceptor config for protected endpoints.
+ */
+const getAccessTokenForProtectedEndpoints = () => {
+  return getAccessToken();
+};
+
+/**
+ * Protected axios request interceptor.
+ */
+protectedAxios.interceptors.request.use((config) => {
+  config.headers!.Authorization = `Bearer ${getAccessTokenForProtectedEndpoints()}`;
+  return config;
+});

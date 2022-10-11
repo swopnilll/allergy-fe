@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom"
+
 import useAuth from "../hooks/useAuth";
+
 import { login } from "../api/auth";
+
+import { setAccessToken, setRefreshToken } from "../localStorageService/auth";
 
 const Login = () => {
 
@@ -22,11 +26,8 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-
-    const handleLoginFormSubmit = async (event: any) => {
-        event.preventDefault();
-
-        let apiResponse: any = {};
+    const initiateLoginAndFetchUserDetails = async () => {
+        let apiResponse;
 
         try {
             apiResponse = await login({
@@ -34,12 +35,23 @@ const Login = () => {
                 password
             })
         } catch (error: any) {
-            console.log(error)
+            setErrorMessage(error.data);
         }
 
-        console.log(apiResponse);
+        return apiResponse.data;
+    }
 
-        const userCredentials = apiResponse?.data;
+    const saveUserCredentials = (accessToken: string, refreshToken: string) => {
+        setAccessToken(accessToken);
+        setRefreshToken(refreshToken);
+
+    }
+
+    const handleLoginFormSubmit = async (event: any) => {
+        event.preventDefault();
+
+        const userCredentials = await initiateLoginAndFetchUserDetails();
+        console.log("userCred", userCredentials);
 
         setAuthenticatedUser(
             {
@@ -50,6 +62,9 @@ const Login = () => {
             }
         );
 
+        saveUserCredentials(userCredentials.accessToken, userCredentials.refreshToken);
+
+        console.log(from);
         navigate(from, { replace: true });
     }
 
@@ -89,6 +104,10 @@ const Login = () => {
                         </p>
                     </div>
                 </form>
+
+                <p className="text-center mt-2">
+                    {errorMessage}
+                </p>
 
             </div>
         </div>

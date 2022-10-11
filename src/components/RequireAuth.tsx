@@ -1,18 +1,15 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 
-import useAuth from "../hooks/useAuth";
+import { validateAuthentication } from "../localStorageService/auth";
 
 const RequiredAuth = () => {
-    const { authenticatedUser } = useAuth();
-
-    console.log(authenticatedUser);
-
     const location = useLocation();
+    const isAuthenticated = validateAuthentication();
 
     return (
-        authenticatedUser?.accessToken
-            ? <Outlet />
-            : <Navigate to="/" state={{from: location}} replace/>
+        isAuthenticated
+            ? <Outlet/>
+            : <Navigate to="/" state={{ from: location }} replace />
 
     )
 }

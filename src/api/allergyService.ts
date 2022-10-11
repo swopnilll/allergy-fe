@@ -1,20 +1,7 @@
-import axios from "axios";
-import { BASE_URL } from "../constant/urlContant";
+import { protectedAxios } from "./axios";
 
-const setInterceptors = (accessToken: string) => {
-  axios.interceptors.request.use((config) => {
-    config.headers!.Authorization = `Bearer ${accessToken}`;
-    return config;
-  });
-};
-
-export const getAllAllergiesForUser = async (
-  userId: number,
-  accessToken: string
-) => {
-  setInterceptors(accessToken);
-  
-  const response = await axios.get(`${BASE_URL}/users/${userId}`);
+export const getAllAllergiesForUser = async (userId: number) => {
+  const response = await protectedAxios.get(`/users/${userId}`);
 
   return response;
 };
